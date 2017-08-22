@@ -39,8 +39,7 @@ class ObjectCache extends ToolKit {
     // If result wasn't found/returned and/or caching is disabled, set & return the value from $callback
     if( !$result ) {
       $result = $callback();
-      if( is_array( $result ) || is_object( $result ) ) $result = serialize( $result );
-      if( !$cache_disabled ) wp_cache_set( $object_cache_key, $result, $object_cache_group, $object_cache_expire);
+      if( !$cache_disabled ) wp_cache_set( $object_cache_key, ( is_array( $result ) || is_object( $result ) ? serialize( $result ) : $result ), $object_cache_group, $object_cache_expire);
     }
 
     return $result;
