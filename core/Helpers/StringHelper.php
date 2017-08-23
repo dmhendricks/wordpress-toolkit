@@ -36,6 +36,31 @@ class StringHelper extends ToolKit
   }
 
   /**
+    * Encrypts string using WP_ENCRYPT_KEY as salt if defined, else SECURE_AUTH_KEY.
+    *
+    * @param string $str String to encrypt
+    * @return string Encrypted string
+    * @since 0.1.0
+    */
+  public static function encrypt( $str ) {
+    $salt = defined( 'WP_ENCRYPT_KEY' ) && WP_ENCRYPT_KEY ? WP_ENCRYPT_KEY : SECURE_AUTH_KEY;
+    return openssl_encrypt($str, self::$config->get( 'encrypt_method' ), $salt);
+  }
+
+  /**
+    * Decrypts encrypted string
+    *
+    * @param string $str String to decrypt
+    * @return string Decrypted string
+    * @since 0.1.0
+    * @see Helpers::encrypt()
+    */
+  public static function decrypt( $str ) {
+    $salt = defined( 'WP_ENCRYPT_KEY' ) && WP_ENCRYPT_KEY ? WP_ENCRYPT_KEY : SECURE_AUTH_KEY;
+    return openssl_decrypt($str, self::$config->get( 'encrypt_method' ), $salt);
+  }
+
+  /**
     * Checks whether a JSON string has valid syntax
     *
     * @param string $json The JSON string to test

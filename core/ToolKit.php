@@ -8,7 +8,7 @@ namespace WordPress_ToolKit;
  */
 class ToolKit {
 
-  public static $config;
+  protected static $config;
 
   function __construct( $args = null )
   {
