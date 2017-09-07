@@ -18,13 +18,12 @@ class ObjectCache extends ToolKit {
     * @return string Cached value of key
     * @since 0.1.0
     */
-  public function get_object( $key = null, $callback ) {
+  public function get_object( $key = null, $callback, $cache_disabled = false ) {
 
     $object_cache_group = self::$config->get( 'object_cache/group' ) ? self::$config->get( 'object_cache/group' ) : sanitize_title( self::$config->get( 'data/Name' ) );
     if( is_multisite() ) $object_cache_group .= '_' . get_current_blog_id();
     $object_cache_expire = ( is_int( self::$config->get( 'object_cache/expire_hours' ) ) ? self::$config->get( 'object_cache/expire_hours' ) : 24 ) * 86400; // Default to 24 hours
 
-    $cache_disabled = defined( 'WPTK_DISABLE_CACHE' ) && WPTK_DISABLE_CACHE;
     $result = null;
 
     // Set key variable
