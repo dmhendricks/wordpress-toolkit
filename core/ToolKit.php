@@ -24,5 +24,16 @@ class ToolKit {
 
   }
 
+  /**
+    * Append a field prefix as defined in $config
+    *
+    * @param string|null $str The string/field to prefix
+    * @return string Prefixed string/field value
+    * @since 0.1.0
+    */
+  public function prefix( $field_name = '' ) {
+    return self::$config->get( 'prefix' ) . $field_name;
+  }
+
 }
 ?>

@@ -8,11 +8,11 @@ namespace WordPress_ToolKit;
   */
 class PluginTools extends ToolKit {
 
-  // Add plugin meta, hide plugins, modify remove actions
+  // Example function
   public function example_function()
   {
 
-    //TODO
+    // TODO
 
   }
 
