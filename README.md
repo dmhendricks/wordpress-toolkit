@@ -9,12 +9,18 @@ A growing collection of classes that I use in my WordPress plugins.
 
 ### Contributing
 
-If you can make the code better or recommend/contribute code that would be useful to include, [please do so](https://github.com/dmhendricks/wordpress-toolkit/issues)!
+If you can make the code better or recommend/contribute code that would be useful to include, [please let me know](https://github.com/dmhendricks/wordpress-toolkit/issues).
 
 ## Requirements
 
 * WordPress 4.0 or higher
 * PHP 5.6 or higher
+
+## Features
+
+* [ConfigRegistry](https://github.com/dmhendricks/wordpress-toolkit/wiki/ConfigRegistry) class - Loads plugin/theme settings from an array or JSON file.
+* [ObjectCache](https://github.com/dmhendricks/wordpress-toolkit/wiki/ObjectCache) class - A wrapper for setting/fetching values from the WordPress object cache, where available.
+* [ScriptObject](https://github.com/dmhendricks/wordpress-toolkit/wiki/ScriptObject) class - Inject JavaScript variables or CSS into the page head or write/enqueue external files.
 
 ## Install with Composer
 
@@ -24,18 +30,6 @@ composer require dmhendricks/wordpress-toolkit
 
 ## Usage
 
-**Caveat emptor:** This code is currently in initial, alpha stage.
+**Note:** This code is currently in initial, alpha stage.
 
 Please see the [Documentation](https://github.com/dmhendricks/wordpress-toolkit/wiki) page.
-
-## Credits
-
-Please support [humans.txt](http://humanstxt.org/). It's an initiative for knowing the people behind a web site. It's an unobtrusive text file that contains information about the different people who have contributed to building the web site.
-
-**PHLAK/Config**
-
-	URL: https://github.com/PHLAK/Config
-	Author: Chris Kankiewicz
-	Twitter: @PHLAK
-	Author URI: https://www.chriskankiewicz.com
-	Location: Mesa, Arizona, USA
