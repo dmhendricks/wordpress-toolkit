@@ -16,7 +16,7 @@ class ScriptObject extends ToolKit {
    * Class constructor, runs on object creation.
    *
    * @param array $values An array of values to inject/enqueue
-   * @link https://github.com/dmhendricks/wordpress-toolkit/wiki
+   * @link https://github.com/dmhendricks/wordpress-toolkit/wiki/ScriptObject
    * @since 0.1.0
    */
   public function __construct( $values ) {
