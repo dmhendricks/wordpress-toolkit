@@ -25,7 +25,7 @@ class PluginTools extends ToolKit {
     * @return ConfigRegistry object
     * @since 0.2.0
     */
-  public function get_current_plugin_data( $field = null ) {
+  public function get_current_plugin_data( $field = null, $type = ConfigRegistry ) {
 
     $plugin_data['slug'] = current( explode( DIRECTORY_SEPARATOR, plugin_basename( __DIR__ ) ) );
     $plugin_data['path'] = trailingslashit( str_replace( plugin_basename( __DIR__ ), '', __DIR__ ) . $plugin_data['slug'] );
@@ -43,9 +43,12 @@ class PluginTools extends ToolKit {
 
     }
 
-    $plugin_data = new ConfigRegistry( $plugin_data );
-
-    return $field ? $plugin_data->get( $field ) : $plugin_data;
+    if( $type == ARRAY_A ) {
+      return $field ? $plugin_data[ $field ] : $plugin_data;
+    } else {
+      $plugin_data = new ConfigRegistry( $plugin_data );
+      return $field ? $plugin_data->get( $field ) : $plugin_data;
+    }
 
   }
 
