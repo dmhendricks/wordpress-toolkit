@@ -19,6 +19,7 @@ If you can make the code better or recommend/contribute code that would be usefu
 * [ConfigRegistry](https://github.com/dmhendricks/wordpress-toolkit/wiki/ConfigRegistry) class - Loads plugin/theme settings from an array or JSON file.
 * [ObjectCache](https://github.com/dmhendricks/wordpress-toolkit/wiki/ObjectCache) class - A wrapper for setting/fetching values from the WordPress object cache, where available.
 * [ScriptObject](https://github.com/dmhendricks/wordpress-toolkit/wiki/ScriptObject) class - Inject JavaScript variables or CSS into the page head or write/enqueue external files.
+* [PluginTools](https://github.com/dmhendricks/wordpress-toolkit/wiki/PluginTools) class - A class for retrieving data and performing various tasks on plugins.
 
 ## Installation
 
@@ -43,4 +44,4 @@ Release changes are be noted on the [Releases](https://github.com/dmhendricks/wo
 
 #### Branch: `master`
 
-* None since release
+* Added [PluginTools](https://github.com/dmhendricks/wordpress-toolkit/wiki/PluginTools) class
