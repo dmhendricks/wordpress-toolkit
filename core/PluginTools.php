@@ -9,6 +9,8 @@ use WordPress_ToolKit\ConfigRegistry;
   */
 class PluginTools extends ToolKit {
 
+  protected $plugin_dir;
+
   /**
    * Class constructor, runs on object creation.
    *
@@ -16,7 +18,11 @@ class PluginTools extends ToolKit {
    * @link https://github.com/dmhendricks/wordpress-toolkit/wiki/PluginTools
    * @since 0.2.0
    */
-  public function __construct( ) { }
+  public function __construct( $plugin_dir = __DIR__ ) {
+
+    $this->plugin_dir = $plugin_dir;
+
+  }
 
   /**
     * Get current plugin properties
@@ -25,11 +31,11 @@ class PluginTools extends ToolKit {
     * @return ConfigRegistry object
     * @since 0.2.0
     */
-  public function get_current_plugin_data( $field = null, $type = ConfigRegistry ) {
+  public function get_current_plugin_data( $type = ConfigRegistry ) {
 
-    $plugin_data['slug'] = current( explode( DIRECTORY_SEPARATOR, plugin_basename( __DIR__ ) ) );
-    $plugin_data['path'] = trailingslashit( str_replace( plugin_basename( __DIR__ ), '', __DIR__ ) . $plugin_data['slug'] );
-    $plugin_data['url'] = current( explode( $plugin_data['slug'] . '/', plugin_dir_url( __DIR__ ) ) ) . $plugin_data['slug'] . '/';
+    $plugin_data['slug'] = current( explode( DIRECTORY_SEPARATOR, plugin_basename( $this->plugin_dir ) ) );
+    $plugin_data['path'] = trailingslashit( str_replace( plugin_basename( $this->plugin_dir ), '', $this->plugin_dir ) . $plugin_data['slug'] );
+    $plugin_data['url'] = current( explode( $plugin_data['slug'] . '/', plugin_dir_url( $this->plugin_dir ) ) ) . $plugin_data['slug'] . '/';
 
     // Get plugin path/file identifier
     foreach( get_plugins() as $key => $plugin ) {
@@ -43,12 +49,11 @@ class PluginTools extends ToolKit {
 
     }
 
-    if( $type == ARRAY_A ) {
-      return $field ? $plugin_data[ $field ] : $plugin_data;
-    } else {
+    if( $type == ConfigRegistry ) {
       $plugin_data = new ConfigRegistry( $plugin_data );
-      return $field ? $plugin_data->get( $field ) : $plugin_data;
     }
+
+    return $plugin_data;
 
   }
 
