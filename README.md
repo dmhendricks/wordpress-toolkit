@@ -1,8 +1,9 @@
 [![Author](https://img.shields.io/badge/author-Daniel%20M.%20Hendricks-lightgrey.svg?colorB=9900cc)](https://www.danhendricks.com)
 [![Latest Version](https://img.shields.io/github/release/dmhendricks/wordpress-toolkit.svg)](https://github.com/dmhendricks/wordpress-toolkit/releases)
+[![Total Downloads](https://img.shields.io/packagist/dt/dmhendricks/wordpress-toolkit.svg)](https://packagist.org/packages/dmhendricks/wordpress-toolkit)
+[![GitHub License](https://img.shields.io/badge/license-GPLv2-yellow.svg)](https://raw.githubusercontent.com/dmhendricks/wordpress-toolkit/master/LICENSE)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/danielhendricks)
 [![WP Engine](https://img.shields.io/badge/WP%20Engine-Compatible-orange.svg)](http://bit.ly/WPEnginePlans)
-[![GitHub License](https://img.shields.io/badge/license-GPLv2-yellow.svg)](https://raw.githubusercontent.com/dmhendricks/wordpress-toolkit/master/LICENSE)
 [![Twitter](https://img.shields.io/twitter/url/https/github.com/dmhendricks/wordpress-toolkit.svg?style=social)](https://twitter.com/danielhendricks)
 
 # WordPress Tool Kit
