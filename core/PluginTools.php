@@ -36,7 +36,7 @@ class PluginTools extends ToolKit {
 
       if( strstr( $key, trailingslashit( $plugin_data['slug'] ) ) ) {
         $parts = explode( DIRECTORY_SEPARATOR, $key );
-        $plugin_data['id'] = $key;
+        $plugin_data['identifier'] = $key;
         $plugin_data['file'] = end( $parts );
         $plugin_data['meta'] = get_plugin_data( $plugin_data['path'] . $plugin_data['file'] );
       }
