@@ -76,4 +76,3 @@ class ObjectCache extends ToolKit {
   }
 
 }
-?>

@@ -274,4 +274,3 @@ class ScriptObject extends ToolKit {
   }
 
 }
-?>
