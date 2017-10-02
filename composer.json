@@ -1,7 +1,7 @@
 {
   "name": "dmhendricks/wordpress-toolkit",
   "description": "A collection of helper classes and functions for WordPress plugins and themes.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "GPL-2.0",
   "homepage": "https://github.com/dmhendricks/wordpress-toolkit",
   "authors": [
