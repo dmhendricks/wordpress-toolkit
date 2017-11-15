@@ -49,7 +49,7 @@ class PluginTools extends ToolKit {
 
     }
 
-    if( $type == ConfigRegistry ) {
+    if( $type == 'ConfigRegistry' ) {
       $plugin_data = new ConfigRegistry( $plugin_data );
     }
 
