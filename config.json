@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0",
+  "version": "0.1.4",
   "prefix": "wptk_",
   "object_cache": {
     "group": "default_cache",
@@ -7,5 +7,8 @@
   },
   "encrypt_method": "AES-128-ECB",
   "js_object": "js_object",
-  "dynamic_scripts_directory": "dynamic"
+  "dynamic_scripts_directory": "dynamic",
+  "envato": {
+    "api_base_url": "https://api.envato.com/v3/"
+  }
 }
