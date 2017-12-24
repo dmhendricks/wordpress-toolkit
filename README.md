@@ -27,7 +27,7 @@ If you can make the code better or recommend/contribute code that would be usefu
 ### Requirements
 
 * WordPress 4.0 or higher
-* PHP 5.6 or higher
+* PHP 5.6.4 or higher
 
 ### Install with Composer
 
@@ -45,4 +45,4 @@ Release changes are be noted on the [Releases](https://github.com/dmhendricks/wo
 
 #### Branch: `master`
 
-* Added [PluginTools](https://github.com/dmhendricks/wordpress-toolkit/wiki/PluginTools) class
+* Added simple [Envato PersonalToken](https://github.com/dmhendricks/wordpress-toolkit/wiki/Envato) class
