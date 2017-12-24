@@ -33,8 +33,7 @@ class PersonalToken extends ToolKit
       'Authorization' => 'Bearer ' . $personal_token,
       'User-Agent'    => 'Mozilla/5.0 (compatible; Envato Marketplace API Wrapper; dmhendricks/wordpress-toolkit/0.1.4)'
     ));
-    //$this->base_url = self::$config->get( 'envato/api_base_url' );
-    $this->base_url = 'https://api.envato.com/v3/';
+    $this->base_url = self::$config->get( 'envato/api_base_url' );
     $this->client = new \GuzzleHttp\Client();
 
   }
@@ -46,6 +45,8 @@ class PersonalToken extends ToolKit
    */
   public function validate()
   {
+
+    if( !$this->base_url ) return false;
 
     try {
 
@@ -73,9 +74,11 @@ class PersonalToken extends ToolKit
   public function validatePurchaseCode( $purchase_code, $item_id = null, $return_data = true )
   {
 
-    $item_id = $item_id ?: self::$config->get( 'envato/item_id' );
+    $result = array( 'error' => true, 'description' => 'Envato API base URL not provided.' )
+    if( !$this->base_url ) return $return_data ? $result : false;
 
-    $result = array( 'error' => true, 'description' => 'Invalid purchase code or item id.' );
+    $item_id = $item_id ?: self::$config->get( 'envato/item_id' );
+    $result['description'] = 'Invalid purchase code or item id.';
 
     if( !is_string( $purchase_code ) ) {
 
