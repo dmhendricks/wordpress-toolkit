@@ -74,11 +74,11 @@ class PersonalToken extends ToolKit
   public function validatePurchaseCode( $purchase_code, $item_id = null, $return_data = true )
   {
 
-    $result = array( 'error' => true, 'description' => 'Envato API base URL not provided.' )
+    $result = array( 'error' => true, 'description' => 'Envato API base URL not provided.' );
     if( !$this->base_url ) return $return_data ? $result : false;
 
     $item_id = $item_id ?: self::$config->get( 'envato/item_id' );
-    $result['description'] = 'Invalid purchase code or item id.';
+    $result['description'] = 'Invalid purchase code or item id.'  ;
 
     if( !is_string( $purchase_code ) ) {
 
