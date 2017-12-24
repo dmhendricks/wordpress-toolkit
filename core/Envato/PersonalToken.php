@@ -1,6 +1,8 @@
 <?php
-namespace WordPress_ToolKit;
+namespace WordPress_ToolKit\Envato;
 use WordPress_ToolKit\ConfigRegistry;
+use WordPress_ToolKit\ToolKit;
+
 /**
   * A class to perform simple Envato API operations when provided a user's
   *    personal access token.
@@ -11,20 +13,28 @@ use WordPress_ToolKit\ConfigRegistry;
 class PersonalToken extends ToolKit
 {
 
-  protected $token;
+  protected $headers;
   private $client;
+  private $base_url;
 
   /**
-   * Class constructor, runs on object creation.
+   * Set the personal token and create request headers
    *
    * @param mixed $personal_token A personal token to access the Envato API.
    * @link https://build.envato.com/create-token/
    */
-  public function __construct( $personal_token )
+  public function setToken( $personal_token )
   {
 
+    //var_dump( self::$config->get() ); exit;
+
     // Set Envato credentials
-    $this->token = $personal_token;
+    $this->headers = array( 'headers' => array(
+      'Authorization' => 'Bearer ' . $personal_token,
+      'User-Agent'    => 'Mozilla/5.0 (compatible; Envato Marketplace API Wrapper; dmhendricks/wordpress-toolkit/0.1.4)'
+    ));
+    //$this->base_url = self::$config->get( 'envato/api_base_url' );
+    $this->base_url = 'https://api.envato.com/v3/';
     $this->client = new \GuzzleHttp\Client();
 
   }
@@ -37,8 +47,17 @@ class PersonalToken extends ToolKit
   public function validate()
   {
 
-    $result = (array) json_decode( $this->client->request( 'GET', 'https://api.envato.com/v1/market/total-items.json' ) );
-    return isset( $result['total-items'] );
+    try {
+
+      $client = $this->client->request( 'GET', $this->base_url . 'market/total-items.json', $this->headers );
+      $result = (array) json_decode( $client->getBody() );
+      return isset( $result['total-items'] );
+
+    } catch( \Exception $e ) {
+
+      return false;
+
+    }
 
   }
 
@@ -46,27 +65,44 @@ class PersonalToken extends ToolKit
    * Validates a provided Envato purchase code
    *
    * @param string $purchase_code The purchase code to validate
-   * @param bool $return_boolean If true, returns boolean result. If false,
+   * @param bool $return_data If false, returns boolean result. If false,
    *    returns array with arror message on failure else ConfigRegistry object.
    * @return ConfigRegistry|array|bool Purchased item information, array|bool on
    *    failure.
    */
-  public function validatePurchaseCode( $purchase_code, $return_boolean = true )
+  public function validatePurchaseCode( $purchase_code, $item_id = null, $return_data = true )
   {
 
-    $result = array( 'error' => true, 'description' => 'Invalid purchase code.' );
+    $item_id = $item_id ?: self::$config->get( 'envato/item_id' );
 
-    if( is_string( $purchase_code ) ) {
-      $result = (array) json_decode( $this->client->request( 'GET', 'https://api.envato.com/v1/market/total-items.json' ) );
+    $result = array( 'error' => true, 'description' => 'Invalid purchase code or item id.' );
+
+    if( !is_string( $purchase_code ) ) {
+
+      return $return_data ? $result : false;
+
     } else {
-      return $return_boolean ? false : $result;
+
+      try {
+
+        $client = $this->client->request( 'GET', $this->base_url . 'market/buyer/purchase?code=' . $purchase_code, $this->headers );
+        $result = (array) json_decode( $client->getBody() );
+
+      } catch( \Exception $e ) {
+
+        $result['description'] = $e->getMessage();
+        return $return_data ? $result : false;
+
+      }
+
     }
 
-    // API returned error
-    if( isset( $result['error'] ) ) return $return_boolean ? false : $result;
+    if( $item_id && $item_id != $result['item']->id ) {
+      return $return_data ? array( 'error' => true, 'description' => 'Item ID does not match purchase code.' ) : false;
+    }
 
     // Return ConfigRegistry of result
-    return $return_boolean ? true : new ConfigRegistry( $result );
+    return $return_data ? new ConfigRegistry( $result ) : true;
 
   }
 
