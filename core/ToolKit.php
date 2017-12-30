@@ -17,7 +17,7 @@ class ToolKit {
     $defaults = new ConfigRegistry( dirname( __DIR__ ) . '/config.json' );
 
     // Define toolkit version
-    if ( !defined( __NAMESPACE__ . '\VERSION' ) ) define( __NAMESPACE__ . '\VERSION', $defaults->get( 'version' ) );
+    if ( !defined( __NAMESPACE__ . '\VERSION' ) ) define( __NAMESPACE__ . '\VERSION', $defaults->get( 'toolkit-version' ) );
 
     // Replace default settings with those provided
     self::$config = $defaults->merge( new ConfigRegistry( $args ) );
