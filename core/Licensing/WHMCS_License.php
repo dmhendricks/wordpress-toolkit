@@ -153,7 +153,7 @@ class WHMCS_License extends ToolKit
       if( $responseCode != 200 ) {
         $localexpiry = date( 'Ymd', mktime( 0, 0, 0, date( 'm' ), date( 'd' ) - ( $this->get_config( 'whmcs/local_key_expire_days' ) + $this->get_config( 'whmcs/allow_check_fail_days' ) ), date( 'Y' ) ) );
 
-        if( $originalcheckdate > $localexpiry ) {
+        if( isset( $originalcheckdate ) && $originalcheckdate > $localexpiry ) {
           $results = $local_keyresults;
         } else {
           $results = array();
