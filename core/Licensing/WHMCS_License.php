@@ -14,7 +14,7 @@ class WHMCS_License extends ToolKit
 {
 
   protected $whmcs_url;
-  protected $licensing_secret_key;
+  protected $product_key;
   protected $local_key_expire_days;
   protected $allow_check_fail_days;
 
@@ -27,10 +27,12 @@ class WHMCS_License extends ToolKit
    * @return array Result from validation attempt
    * @since 0.2.0
    */
-  public function validate( $key, $args = array() )
+  public function validate( $key, $localkey = '', $args = array() )
   {
 
-    $result = array( 'valid': false, 'message': 'Invalid or missing server/product settings.' );
+    //var_dump( self::$config->get() );
+
+    $result = array( 'valid' => false, 'message' => 'Invalid or missing server/product settings.' );
 
     return $result;
 
