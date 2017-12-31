@@ -18,6 +18,7 @@ If you can make the code better or recommend/contribute code that would be usefu
 ## Features
 
 * [ConfigRegistry](https://github.com/dmhendricks/wordpress-toolkit/wiki/ConfigRegistry) class - Loads plugin/theme settings from an array or JSON file.
+* [Licensing](https://github.com/dmhendricks/wordpress-toolkit/wiki/Licensing) class - Currently only support license code validation via the [Software Licensing](https://www.whmcs.com/software-licensing/) addon for WHMCS.
 * [ObjectCache](https://github.com/dmhendricks/wordpress-toolkit/wiki/ObjectCache) class - A wrapper for setting/fetching values from the WordPress object cache, where available.
 * [PluginTools](https://github.com/dmhendricks/wordpress-toolkit/wiki/PluginTools) class - A class for retrieving data and performing various tasks on plugins.
 * [ScriptObject](https://github.com/dmhendricks/wordpress-toolkit/wiki/ScriptObject) class - Inject JavaScript variables or CSS into the page head or write/enqueue external files.
@@ -26,7 +27,7 @@ If you can make the code better or recommend/contribute code that would be usefu
 
 ### Requirements
 
-* WordPress 4.0 or higher
+* WordPress 4.5 or higher
 * PHP 5.6.4 or higher
 
 ### Install with Composer
@@ -45,4 +46,4 @@ Release changes are be noted on the [Releases](https://github.com/dmhendricks/wo
 
 #### Branch: `master`
 
-* Added simple [Envato PersonalToken](https://github.com/dmhendricks/wordpress-toolkit/wiki/Envato) class
+* Added WHMCS [Software Licensing](https://www.whmcs.com/software-licensing/) validation class ([usage](https://github.com/dmhendricks/wordpress-toolkit/wiki/Licensing))
