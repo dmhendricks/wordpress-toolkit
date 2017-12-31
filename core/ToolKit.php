@@ -27,12 +27,29 @@ class ToolKit {
   /**
     * Append a field prefix as defined in $config
     *
-    * @param string|null $str The string/field to prefix
+    * @param string|null $field_name The string/field to prefix
+    * @param string $before String to add before the prefix
+    * @param string $after String to add after the prefix
     * @return string Prefixed string/field value
     * @since 0.1.0
     */
-  public function prefix( $field_name = '' ) {
-    return self::$config->get( 'prefix' ) . $field_name;
+  public static function prefix( $field_name = null, $before = '', $after = '_' ) {
+
+    $prefix = $before . self::$config->get( 'prefix' ) . $after;
+    return $field_name !== null ? $prefix . $field_name : $prefix;
+
+  }
+
+  /**
+    * Fetch a config value or entire object config
+    *
+    * @param string|null $key The configuration key path to return. If null,
+    *   returns all config values.
+    * @return string|ConfigRegistry Config key path value or ConfigRegistry object
+    * @since 0.1.4
+    */
+  public function get_config( $key = null) {
+    return self::$config->get( $key );
   }
 
 }
