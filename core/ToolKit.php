@@ -10,17 +10,18 @@ class ToolKit {
 
   protected static $config;
 
-  function __construct( $args = null )
+  function __construct( $args1 = null, $args2 = null )
   {
 
     // Set toolkit configuration defaults
     $defaults = new ConfigRegistry( dirname( __DIR__ ) . '/config.json' );
+    if( $args2 ) $defaults = $defaults->merge( new ConfigRegistry( $args2 ) );
 
     // Define toolkit version
     if ( !defined( __NAMESPACE__ . '\VERSION' ) ) define( __NAMESPACE__ . '\VERSION', $defaults->get( 'toolkit-version' ) );
 
     // Replace default settings with those provided
-    self::$config = $defaults->merge( new ConfigRegistry( $args ) );
+    self::$config = $defaults->merge( new ConfigRegistry( $args1 ) );
 
   }
 
