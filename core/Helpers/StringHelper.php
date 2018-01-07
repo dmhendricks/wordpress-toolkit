@@ -74,4 +74,17 @@ class StringHelper extends ToolKit
 
   }
 
+  /**
+    * Converts hyphens to underscores in a string
+    *
+    * @param string $str Input string
+    * @return string
+    * @since 0.2.0
+    */
+  public static function underscores( $str ) {
+
+    return str_replace( '-', '_', $str );
+
+  }
+
 }
