@@ -133,8 +133,7 @@ class ScriptObject extends ToolKit {
 
       foreach( $this->values as $key => $css ) {
 
-        $explicit = strstr ( $key, '.' ) || strstr ( $key, '#' );
-        $content .= ( $explicit ? $key : '.' . $key ) . ' { ' . $css . ' }' . ( $external ? "\n" : '' );
+        $content .= $key . ' { ' . $css . ' }' . ( $external ? "\n" : '' );
 
       }
 
