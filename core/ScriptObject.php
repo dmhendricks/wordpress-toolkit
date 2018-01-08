@@ -139,7 +139,6 @@ class ScriptObject extends ToolKit {
 
     }
     if( !$content ) return false;
-    $content .= ';';
 
     // If we're not writing an external file, simply inject into head
     if( !$external ) {
@@ -149,6 +148,7 @@ class ScriptObject extends ToolKit {
       foreach( $targets as $target ) {
 
         if( $type == 'js' ) {
+          $content .= ';';
 
           add_action( $target . '_head', function() use ( &$args, &$content ) {
             echo '<script type="text/javascript">' . $content . '</script>';
