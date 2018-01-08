@@ -46,4 +46,4 @@ Release changes are be noted on the [Releases](https://github.com/dmhendricks/wo
 
 #### Branch: `master`
 
-* Added WHMCS [Software Licensing](https://www.whmcs.com/software-licensing/) validation class ([usage](https://github.com/dmhendricks/wordpress-toolkit/wiki/Licensing))
+* None
