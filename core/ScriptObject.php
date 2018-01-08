@@ -139,6 +139,7 @@ class ScriptObject extends ToolKit {
 
     }
     if( !$content ) return false;
+    $content .= ';';
 
     // If we're not writing an external file, simply inject into head
     if( !$external ) {
