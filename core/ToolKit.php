@@ -53,4 +53,14 @@ class ToolKit {
     return self::$config->get( $key );
   }
 
+  /**
+    * Returns true if request is via Ajax.
+    *
+    * @return bool
+    * @since 0.2.1
+    */
+  public function is_ajax() {
+    return defined( 'DOING_AJAX' ) && DOING_AJAX;
+  }
+
 }
