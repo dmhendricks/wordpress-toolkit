@@ -46,4 +46,4 @@ Release changes are be noted on the [Releases](https://github.com/dmhendricks/wo
 
 #### Branch: `master`
 
-* None
+* Added `is_ajax()` method
