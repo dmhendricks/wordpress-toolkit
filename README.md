@@ -29,6 +29,7 @@ If you can make the code better or recommend/contribute code that would be usefu
 
 * WordPress 4.5 or higher
 * PHP 5.6.4 or higher
+* Composer 1.6 or higher
 
 ### Install with Composer
 
@@ -47,3 +48,4 @@ Release changes are be noted on the [Releases](https://github.com/dmhendricks/wo
 #### Branch: `master`
 
 * Added `is_ajax()` method
+* Updated Composer license to conform to new SPDX identifiers
