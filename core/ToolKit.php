@@ -9,19 +9,32 @@ namespace WordPress_ToolKit;
 class ToolKit {
 
   protected static $config;
+  public static $textdomain;
 
-  function __construct( $args1 = null, $args2 = null )
-  {
+  protected function init( $base_dir = null, $args = null ) {
 
-    // Set toolkit configuration defaults
-    $defaults = new ConfigRegistry( dirname( __DIR__ ) . '/config.json' );
-    if( $args2 ) $defaults = $defaults->merge( new ConfigRegistry( $args2 ) );
+    // Load ToolKit defaults
+    $config = new ConfigRegistry( trailingslashit( dirname( __DIR__ ) ) . 'config.json' );
+    $wp_upload_dir = wp_upload_dir();
+    if( $base_dir ) $config->merge( new ConfigRegistry(
+      [
+        'base_dir' => trailingslashit( $base_dir ),
+        'wordpress' => [
+          'version' => get_bloginfo('version'),
+          'root_dir' => $this->get_wordpress_config_dir(),
+          'upload_dir' => trailingslashit( $wp_upload_dir['basedir'] ),
+          'upload_url' => $wp_upload_dir['baseurl']
+        ]
+      ]
+    ));
+
+    // Add theme or plugin properties
+    if( $args ) $config->merge( new ConfigRegistry( $args ) );
 
     // Define toolkit version
-    if ( !defined( __NAMESPACE__ . '\VERSION' ) ) define( __NAMESPACE__ . '\VERSION', $defaults->get( 'toolkit-version' ) );
+    if ( !defined( __NAMESPACE__ . '\VERSION' ) ) define( __NAMESPACE__ . '\VERSION', $config->get( 'toolkit-version' ) );
 
-    // Replace default settings with those provided
-    self::$config = $defaults->merge( new ConfigRegistry( $args1 ) );
+    self::$config = $config;
 
   }
 
@@ -49,8 +62,58 @@ class ToolKit {
     * @return string|ConfigRegistry Config key path value or ConfigRegistry object
     * @since 0.1.4
     */
-  public function get_config( $key = null) {
+  protected function get_config( $key = null) {
     return self::$config->get( $key );
+  }
+
+  /**
+    * Get current plugin properties
+    *
+    * @param string $field Return specific field
+    * @return ConfigRegistry object
+    * @since 0.2.0
+    */
+  protected function get_current_plugin_meta( $type = ConfigRegistry ) {
+    if( !self::$config->get( 'base_dir' ) ) return [];
+
+    $plugin_data['slug'] = current( explode( DIRECTORY_SEPARATOR, plugin_basename( self::$config->get( 'base_dir' ) ) ) );
+    $plugin_data['path'] = trailingslashit( str_replace( plugin_basename( self::$config->get( 'base_dir' ) ), '', self::$config->get( 'base_dir' ) ) . $plugin_data['slug'] );
+    $plugin_data['url'] = current( explode( $plugin_data['slug'] . '/', plugin_dir_url( self::$config->get( 'base_dir' ) ) ) ) . $plugin_data['slug'] . '/';
+
+    // Get plugin path/file identifier
+    foreach( get_plugins() as $key => $plugin ) {
+
+      if( strstr( $key, trailingslashit( $plugin_data['slug'] ) ) ) {
+        $parts = explode( DIRECTORY_SEPARATOR, $key );
+        $plugin_data['identifier'] = $key;
+        $plugin_data['file'] = end( $parts );
+        $plugin_data['meta'] = get_plugin_data( $plugin_data['path'] . $plugin_data['file'] );
+      }
+
+    }
+
+    if( $type == 'ConfigRegistry' ) {
+      $plugin_data = new ConfigRegistry( $plugin_data );
+    }
+
+    return $plugin_data;
+
+  }
+
+  /**
+    * Returns the directory location of wp-config.php
+    *
+    * @return bool
+    * @since 0.2.1
+    */
+  private function get_wordpress_config_dir() {
+    $dir = dirname( __FILE__ );
+    do {
+      if( file_exists( $dir . '/wp-config.php' ) ) {
+        return $dir;
+      }
+    } while( $dir = realpath( trailingslashit( $dir ) . ".." ) );
+    return null;
   }
 
   /**
@@ -61,6 +124,18 @@ class ToolKit {
     */
   public function is_ajax() {
     return defined( 'DOING_AJAX' ) && DOING_AJAX;
+  }
+
+  /**
+    * Returns true if WP_ENV is anything other than 'development' or 'staging'.
+    *   Useful for determining whether or not to enqueue a minified or non-
+    *   minified script (which can be useful for debugging via browser).
+    *
+    * @return bool
+    * @since 0.1.0
+    */
+  public static function is_production() {
+    return ( !defined( 'WP_ENV' ) || ( defined('WP_ENV' ) && !in_array( WP_ENV, array( 'development', 'staging' ) ) ) );
   }
 
 }
