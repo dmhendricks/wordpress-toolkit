@@ -9,7 +9,7 @@ namespace WordPress_ToolKit;
 class ToolKit {
 
   protected static $config;
-  public static $textdomain;
+  protected static $cache;
 
   protected function init( $base_dir = null, $args = null ) {
 
@@ -35,6 +35,9 @@ class ToolKit {
     if ( !defined( __NAMESPACE__ . '\VERSION' ) ) define( __NAMESPACE__ . '\VERSION', $config->get( 'toolkit-version' ) );
 
     self::$config = $config;
+
+    // Initialize ObjectCache
+    self::$cache = new ObjectCache( $config );
 
     // Load Environmental Variables
     $this->load_env_vars( [ $base_dir, self::$config->get( 'wordpress/root_dir' ) ] );
