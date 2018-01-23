@@ -1,5 +1,5 @@
 {
-  "toolkit-version": "0.2.1",
+  "toolkit-version": "0.3.0",
   "prefix": "wptk",
   "object_cache": {
     "group": "default_cache",
