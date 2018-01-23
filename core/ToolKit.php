@@ -36,6 +36,9 @@ class ToolKit {
 
     self::$config = $config;
 
+    // Load Environmental Variables
+    $this->load_env_vars( [ $base_dir, self::$config->get( 'wordpress/root_dir' ) ] );
+
   }
 
   /**
@@ -104,7 +107,7 @@ class ToolKit {
     * Returns the directory location of wp-config.php
     *
     * @return bool
-    * @since 0.2.1
+    * @since 0.3.0
     */
   private function get_wordpress_config_dir() {
     $dir = dirname( __FILE__ );
@@ -117,7 +120,43 @@ class ToolKit {
   }
 
   /**
-    * Returns true if request is via Ajax.
+    * Load environment variables from various .env, if present.
+    *
+    * @param string|array $paths The directories to look within for .env file
+    * @return bool Returns true if .env found and loaded
+    * @since 0.3.0
+    */
+  private function load_env_vars( $paths = __DIR__ ) {
+
+    $paths = (array) $paths;
+
+    $result = null;
+    foreach( $paths as $path ) {
+      $result = $this->load_env_from_apth( $path );
+    }
+
+    return $result;
+  }
+
+  /**
+    * Load environment variables from specified .env file.
+    *
+    * @param string $path The directory load .env file from
+    * @return bool
+    * @since 0.3.0
+    */
+  private function load_env_from_apth( $path ) {
+    try {
+      $env = new \Dotenv\Dotenv( $path );
+      $env->load();
+    } catch ( \Dotenv\Exception\InvalidPathException $e ) {
+    } catch ( Exception $e ) { }
+
+    $this->set_environment();
+  }
+
+  /**
+    * Returns true if request is via AJAX.
     *
     * @return bool
     * @since 0.2.1
@@ -127,15 +166,50 @@ class ToolKit {
   }
 
   /**
-    * Returns true if WP_ENV is anything other than 'development' or 'staging'.
-    *   Useful for determining whether or not to enqueue a minified or non-
-    *   minified script (which can be useful for debugging via browser).
+    * Returns true if environment is anything other than 'development' or
+    *   'staging'. For example, for determining whether or not to enqueue a
+    *    minified or non-minified script (which can be useful for debugging via
+    *    browser).
     *
     * @return bool
+    * @see ToolKit::get_environment()
     * @since 0.1.0
     */
   public static function is_production() {
-    return ( !defined( 'WP_ENV' ) || ( defined('WP_ENV' ) && !in_array( WP_ENV, array( 'development', 'staging' ) ) ) );
+    return strtolower( self::get_environment() ) == 'production';
+  }
+
+  /**
+    * Sets the environmental variable `ENVIRONMENT` if $env is passed or if
+    *    constant WP_ENV is define.
+    *
+    * @param string $env If provided, set's the enviroment to string provided
+    * @since 0.3.0
+    */
+  public static function set_environment( $env = null ) {
+
+    switch( true ) {
+      case ( is_string( $env ) ):
+        putenv( 'ENVIRONMENT=' . $env );
+        break;
+      case ( defined( 'WP_ENV' ) ):
+        putenv( 'ENVIRONMENT=' . WP_ENV );
+        break;
+    }
+
+  }
+
+  /**
+    * Gets the current development environmental variable if set via WP_ENV
+    *    constant or .env values.
+    *
+    * @param string $env If provided, set's the enviroment to string provided
+    * @see ToolKit::load_env_vars()
+    * @see ToolKit::set_environment()
+    * @since 0.3.0
+    */
+  public static function get_environment() {
+    return getenv( 'ENVIRONMENT' ) ?: 'production';
   }
 
 }
