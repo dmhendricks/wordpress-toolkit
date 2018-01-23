@@ -49,3 +49,4 @@ Release changes are be noted on the [Releases](https://github.com/dmhendricks/wo
 
 * Added `is_ajax()` method
 * Updated Composer license to conform to new SPDX identifiers
+* Added [phpdotenv](https://github.com/etelford/phpdotenv) support ([reference](https://github.com/dmhendricks/wordpress-toolkit/wiki/ToolKit))
