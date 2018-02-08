@@ -83,7 +83,7 @@ class ToolKit {
     if( !self::$config->get( 'base_dir' ) ) return [];
 
     $plugin_data['slug'] = current( explode( DIRECTORY_SEPARATOR, plugin_basename( self::$config->get( 'base_dir' ) ) ) );
-    $plugin_data['path'] = trailingslashit( str_replace( plugin_basename( self::$config->get( 'base_dir' ) ), '', self::$config->get( 'base_dir' ) ) . $plugin_data['slug'] );
+    $plugin_data['path'] = trailingslashit( str_replace( plugin_basename( self::$config->get( 'base_dir' ) ), '', trim( self::$config->get( 'base_dir' ), '/' ) ) . $plugin_data['slug'] );
     $plugin_data['url'] = current( explode( $plugin_data['slug'] . '/', plugin_dir_url( self::$config->get( 'base_dir' ) ) ) ) . $plugin_data['slug'] . '/';
 
     // Get plugin path/file identifier
