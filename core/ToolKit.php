@@ -8,8 +8,8 @@ namespace WordPress_ToolKit;
  */
 class ToolKit {
 
-  protected static $config;
   protected static $cache;
+  protected static $registry;
 
   protected function init( $base_dir = null, $args = null ) {
 
@@ -34,13 +34,14 @@ class ToolKit {
     // Define toolkit version
     if ( !defined( __NAMESPACE__ . '\VERSION' ) ) define( __NAMESPACE__ . '\VERSION', $config->get( 'toolkit-version' ) );
 
-    self::$config = $config;
-
     // Initialize ObjectCache
     self::$cache = new ObjectCache( $config );
 
     // Load Environmental Variables
-    $this->load_env_vars( [ $base_dir, self::$config->get( 'wordpress/root_dir' ) ] );
+    $this->load_env_vars( [ $base_dir, $config->get( 'wordpress/root_dir' ) ] );
+
+    self::$registry = $config;
+    return $config;
 
   }
 
@@ -55,7 +56,7 @@ class ToolKit {
     */
   public static function prefix( $field_name = null, $before = '', $after = '_' ) {
 
-    $prefix = $before . self::$config->get( 'prefix' ) . $after;
+    $prefix = $before . self::$registry->get( 'prefix' ) . $after;
     return $field_name !== null ? $prefix . $field_name : $prefix;
 
   }
@@ -69,7 +70,7 @@ class ToolKit {
     * @since 0.1.4
     */
   protected function get_config( $key = null) {
-    return self::$config->get( $key );
+    return self::$registry->get( $key );
   }
 
   /**
@@ -80,11 +81,11 @@ class ToolKit {
     * @since 0.2.0
     */
   protected function get_current_plugin_meta( $type = ConfigRegistry ) {
-    if( !self::$config->get( 'base_dir' ) ) return [];
+    if( !self::$registry->get( 'base_dir' ) ) return [];
 
-    $plugin_data['slug'] = current( explode( DIRECTORY_SEPARATOR, plugin_basename( self::$config->get( 'base_dir' ) ) ) );
-    $plugin_data['path'] = trailingslashit( str_replace( plugin_basename( self::$config->get( 'base_dir' ) ), '', rtrim( self::$config->get( 'base_dir' ), '/' ) ) . $plugin_data['slug'] );
-    $plugin_data['url'] = current( explode( $plugin_data['slug'] . '/', plugin_dir_url( self::$config->get( 'base_dir' ) ) ) ) . $plugin_data['slug'] . '/';
+    $plugin_data['slug'] = current( explode( DIRECTORY_SEPARATOR, plugin_basename( self::$registry->get( 'base_dir' ) ) ) );
+    $plugin_data['path'] = trailingslashit( str_replace( plugin_basename( self::$registry->get( 'base_dir' ) ), '', rtrim( self::$registry->get( 'base_dir' ), '/' ) ) . $plugin_data['slug'] );
+    $plugin_data['url'] = current( explode( $plugin_data['slug'] . '/', plugin_dir_url( self::$registry->get( 'base_dir' ) ) ) ) . $plugin_data['slug'] . '/';
 
     // Get plugin path/file identifier
     foreach( get_plugins() as $key => $plugin ) {
