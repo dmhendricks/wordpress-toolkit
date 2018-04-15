@@ -28,9 +28,9 @@ class ScriptObject extends ToolKit {
       'css_media'     => null,
       'dependencies'  => array(),
       'localize'      => null,
-      'variable_name' => $this->prefix( self::$registry->get( 'js_object' ) ?: 'js_object' ),
+      'variable_name' => $this->prefix( self::$config->get( 'js_object' ) ?: 'js_object' ),
       'handle'        => $this->prefix( 'dynamic_script' ),
-      'script_dir'    => $this->prefix( self::$registry->get( 'dynamic_scripts_directory' ) ?: 'dynamic' ),
+      'script_dir'    => $this->prefix( self::$config->get( 'dynamic_scripts_directory' ) ?: 'dynamic' ),
       'filename'      => null
     );
 
