@@ -13,6 +13,14 @@ class ToolKit {
 
   protected function init( $base_dir = null, $args = null ) {
 
+    include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
+    // Define cookies
+    $site_slug = strtolower( sanitize_title( $_SERVER['SERVER_NAME'] ) );
+    if( !defined( 'SECURE_AUTH_COOKIE' ) ) define( 'SECURE_AUTH_COOKIE', $site_slug . '_sec_' . md5( SECURE_AUTH_SALT ) );
+    if( !defined( 'AUTH_COOKIE' ) ) define( 'AUTH_COOKIE', $site_slug . '_' . md5( AUTH_SALT ) );
+    if( !defined( 'LOGGED_IN_COOKIE' ) ) define( 'LOGGED_IN_COOKIE', $site_slug . '_logged_in_' . md5( LOGGED_IN_SALT ) );
+
     // Load ToolKit defaults
     $config = new ConfigRegistry( trailingslashit( dirname( __DIR__ ) ) . 'config.json' );
     $wp_upload_dir = wp_upload_dir();

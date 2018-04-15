@@ -162,8 +162,9 @@ class ConfigRegistry
   public function merge( ConfigRegistry $config )
   {
 
-    if( $this->config && $config->get() ) {
-      $this->config = array_merge( $this->config, $config->get() );
+    $current = $config->get();
+    if( $this->config && $current ) {
+      $this->config = array_merge( $this->config, $current );
     }
     return $this;
 
