@@ -27,9 +27,9 @@ If you can make the code better or recommend/contribute code that would be usefu
 
 ### Requirements
 
-* WordPress 4.5 or higher
-* PHP 5.6.4 or higher
-* Composer 1.6 or higher
+* WordPress 4.7 or higher
+* PHP 7.0 or higher
+* Composer 2.2.0 or higher
 
 ### Install with Composer
 
