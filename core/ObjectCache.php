@@ -18,16 +18,17 @@ class ObjectCache extends ToolKit {
     * @return string Cached value of key
     * @since 0.1.0
     */
-  public function get_object( $key = null, $callback, $cache_disabled = false ) {
 
-    $object_cache_group = self::$config->get( 'object_cache/group' ) ? self::$config->get( 'object_cache/group' ) : sanitize_title( self::$config->get( 'data/Name' ) );
-    if( is_multisite() ) $object_cache_group .= '_' . get_current_blog_id();
+  public function get_object( $key = null, $callback, $object_cache_group = null, $network_global = false, $cache_disabled = false ) {
+
+    if( !$object_cache_group ) $object_cache_group = self::$config->get( 'object_cache/group' ) ? self::$config->get( 'object_cache/group' ) : sanitize_title( self::$config->get( 'data/Name' ) );
+    if( is_multisite() ) $object_cache_group .= '_' . get_current_site()->id;
     $object_cache_expire = ( is_int( self::$config->get( 'object_cache/expire_hours' ) ) ? self::$config->get( 'object_cache/expire_hours' ) : 24 ) * 3600; // Default to 24 hours
 
     $result = null;
 
     // Set key variable
-    $object_cache_key =  $key . ( is_multisite() ? '_' . get_current_blog_id() : '' );
+    $object_cache_key = $key . ( is_multisite() && !$network_global && get_current_blog_id() ? '_' . get_current_blog_id() : '' );
 
     // Try to get the value of the cache
     if( !$cache_disabled ) {
@@ -36,9 +37,9 @@ class ObjectCache extends ToolKit {
     }
 
     // If result wasn't found/returned and/or caching is disabled, set & return the value from $callback
-    if( !$result ) {
+    if( $result === false ) {
       $result = $callback();
-      if( !$cache_disabled ) wp_cache_set( $object_cache_key, ( is_array( $result ) || is_object( $result ) ? serialize( $result ) : $result ), $object_cache_group, $object_cache_expire);
+      if( !$cache_disabled ) wp_cache_set( $object_cache_key, ( is_array( $result ) || is_object( $result ) || is_bool( $result ) ? serialize( $result ) : $result ), $object_cache_group, $object_cache_expire);
     }
 
     return $result;
