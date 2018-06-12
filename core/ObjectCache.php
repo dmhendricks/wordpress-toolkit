@@ -29,15 +29,16 @@ class ObjectCache extends ToolKit {
 
     // Set key variable
     $object_cache_key = $key . ( is_multisite() && !$network_global && get_current_blog_id() ? '_' . get_current_blog_id() : '' );
+    $cache_hit = false;
 
     // Try to get the value of the cache
     if( !$cache_disabled ) {
-      $result = wp_cache_get( $object_cache_key, $object_cache_group );
-      if( $result && is_serialized( $result ) ) $result = unserialize($result);
+      $result = wp_cache_get( $object_cache_key, $object_cache_group, false, $cache_hit );
+      if( $result && is_serialized( $result ) ) $result = unserialize( $result );
     }
 
-    // If result wasn't found/returned and/or caching is disabled, set & return the value from $callback
-    if( $result === false ) {
+    // If cache miss or caching is disabled, set & return the value from $callback()
+    if( !$cache_hit ) {
       $result = $callback();
       if( !$cache_disabled ) wp_cache_set( $object_cache_key, ( is_array( $result ) || is_object( $result ) || is_bool( $result ) ? serialize( $result ) : $result ), $object_cache_group, $object_cache_expire);
     }
@@ -58,18 +59,18 @@ class ObjectCache extends ToolKit {
     *    else true/false
     * @since 0.1.0
     */
-  public function flush($ID = null, $post = null) {
+  public function flush( $ID = null, $post = null ) {
 
-    $result = array('success' => true);
+    $result = array( 'success' => true );
 
     try {
       wp_cache_flush();
-    } catch (Exception $e) {
+    } catch ( Exception $e ) {
       $result = array('success' => false, 'message' => $e->getMessage());
     }
 
-    if( defined('DOING_AJAX') && DOING_AJAX ) {
-      echo json_encode($result);
+    if( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+      echo json_encode( $result );
       die();
     }
     return $result['success'];
