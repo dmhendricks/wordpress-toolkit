@@ -29,7 +29,6 @@ If you can make the code better or recommend/contribute code that would be usefu
 
 * WordPress 4.7 or higher
 * PHP 7.0 or higher
-* Composer 2.2.0 or higher
 
 ### Install with Composer
 
