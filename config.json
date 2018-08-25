@@ -1,9 +1,9 @@
 {
-  "toolkit-version": "0.3.4",
+  "toolkit-version": "0.4.0",
   "prefix": "wptk",
   "object_cache": {
-    "group": "default_cache",
-    "expire_hours": 72
+    "group": "wordpress_toolkit_cache_group",
+    "expire": 86400
   },
   "encrypt_method": "AES-128-ECB",
   "js_object": "js_object",
