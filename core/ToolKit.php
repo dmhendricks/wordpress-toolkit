@@ -11,6 +11,7 @@ class ToolKit {
   protected static $cache;
   protected static $config;
   protected static $admin_dir;
+  protected static $salt;
 
   protected function init( $base_dir = null, $args = null ) {
 
@@ -46,6 +47,15 @@ class ToolKit {
 
     // Initialize ObjectCache
     self::$cache = new ObjectCache( $config );
+
+    // Set ecryption salt
+    if( defined( 'WP_ENCRYPT_KEY' ) ) {
+      self::$salt = WP_ENCRYPT_KEY;
+    } else if( $config->get( 'encrypt/salt' ) ) {
+      self::$salt = $config->get( 'encrypt/salt' );
+    } else {
+      self::$salt = SECURE_AUTH_KEY;
+    }
 
     // Load Environmental Variables
     $this->load_env_vars( [ $base_dir, $config->get( 'wordpress/root_dir' ) ] );

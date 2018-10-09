@@ -1,7 +1,6 @@
 <?php
 namespace WordPress_ToolKit\Helpers;
 use WordPress_ToolKit\ToolKit;
-use Diarmuidie\NiceID\NiceID;
 
 /**
   * A class to perform various string manipulation and validation functions
@@ -44,8 +43,8 @@ class StringHelper extends ToolKit
     * @since 0.1.0
     */
   public static function encrypt( $str ) {
-    $salt = defined( 'WP_ENCRYPT_KEY' ) && WP_ENCRYPT_KEY ? WP_ENCRYPT_KEY : SECURE_AUTH_KEY;
-    return openssl_encrypt($str, self::$config->get( 'encrypt_method' ), $salt);
+    $salt = parent::$salt;
+    return openssl_encrypt( $str, self::$config->get( 'encrypt/method' ), parent::$salt );
   }
 
   /**
@@ -56,8 +55,7 @@ class StringHelper extends ToolKit
     * @since 0.1.0
     */
   public static function decrypt( $str ) {
-    $salt = defined( 'WP_ENCRYPT_KEY' ) && WP_ENCRYPT_KEY ? WP_ENCRYPT_KEY : SECURE_AUTH_KEY;
-    return openssl_decrypt($str, self::$config->get( 'encrypt_method' ), $salt);
+    return openssl_decrypt( $str, self::$config->get( 'encrypt/method' ), parent::$salt );
   }
 
   /**
@@ -87,23 +85,6 @@ class StringHelper extends ToolKit
     $str = sanitize_title( $str );
     if( $delimiter ) $str = str_replace( '-', $delimiter, $str );
     return $str;
-
-  }
-
-  /**
-    * Create a short hash string from an integer
-    *
-    * @param integer $minimum_length Integer to hash
-    * @return string
-    * @since 0.4.1
-    */
-  public static function hash_int( $num = null, $minimum_length = 6 ) {
-
-    if( !$num ) $num = time();
-    $salt = defined( 'WP_ENCRYPT_KEY' ) && WP_ENCRYPT_KEY ? WP_ENCRYPT_KEY : SECURE_AUTH_KEY;
-    $str = new NiceID( $salt );
-    $str->setMinLength( $minimum_length );
-    return $str->encode( $num );
 
   }
 
