@@ -10,10 +10,12 @@ class ToolKit {
 
   protected static $cache;
   protected static $config;
+  protected static $admin_dir;
 
   protected function init( $base_dir = null, $args = null ) {
 
-    include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+    self::$admin_dir = ABSPATH . ( defined( 'WP_ADMIN_DIR' ) ? WP_ADMIN_DIR : 'wp-admin' );
+    include_once( self::$admin_dir . '/includes/plugin.php' );
 
     // Define cookies
     $site_slug = strtolower( sanitize_title( $_SERVER['SERVER_NAME'] ) );
