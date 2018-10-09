@@ -70,7 +70,7 @@ class StringHelper extends ToolKit
   public static function is_json( $json ) {
 
     json_decode( $json );
-    return (json_last_error() == JSON_ERROR_NONE);
+    return ( json_last_error() == JSON_ERROR_NONE );
 
   }
 
@@ -78,6 +78,7 @@ class StringHelper extends ToolKit
     * Converts hyphens to underscores in a string
     *
     * @param string $str Input string
+    * @param string $delimiter Word delimiter (default: '-')
     * @return string
     * @since 0.4.1
     */
