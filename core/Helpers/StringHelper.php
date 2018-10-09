@@ -103,7 +103,7 @@ class StringHelper extends ToolKit
     $salt = defined( 'WP_ENCRYPT_KEY' ) && WP_ENCRYPT_KEY ? WP_ENCRYPT_KEY : SECURE_AUTH_KEY;
     $str = new NiceID( $salt );
     $str->setMinLength( $minimum_length );
-    $str->encode( $num );
+    return $str->encode( $num );
 
   }
 
