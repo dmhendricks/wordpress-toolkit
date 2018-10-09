@@ -1,6 +1,7 @@
 <?php
 namespace WordPress_ToolKit\Helpers;
 use WordPress_ToolKit\ToolKit;
+use Diarmuidie\NiceID\NiceID;
 
 /**
   * A class to perform various string manipulation and validation functions
@@ -53,7 +54,6 @@ class StringHelper extends ToolKit
     * @param string $str String to decrypt
     * @return string Decrypted string
     * @since 0.1.0
-    * @see Helpers::encrypt()
     */
   public static function decrypt( $str ) {
     $salt = defined( 'WP_ENCRYPT_KEY' ) && WP_ENCRYPT_KEY ? WP_ENCRYPT_KEY : SECURE_AUTH_KEY;
@@ -87,6 +87,23 @@ class StringHelper extends ToolKit
     $str = sanitize_title( $str );
     if( $delimiter ) $str = str_replace( '-', $delimiter, $str );
     return $str;
+
+  }
+
+  /**
+    * Create a short hash string from an integer
+    *
+    * @param integer $minimum_length Integer to hash
+    * @return string
+    * @since 0.4.1
+    */
+  public static function hash_int( $num = null, $minimum_length = 6 ) {
+
+    if( !$num ) $num = time();
+    $salt = defined( 'WP_ENCRYPT_KEY' ) && WP_ENCRYPT_KEY ? WP_ENCRYPT_KEY : SECURE_AUTH_KEY;
+    $str = new NiceID( $salt );
+    $str->setMinLength( $minimum_length );
+    $str->encode( $num );
 
   }
 
