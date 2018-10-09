@@ -79,11 +79,13 @@ class StringHelper extends ToolKit
     *
     * @param string $str Input string
     * @return string
-    * @since 0.2.0
+    * @since 0.4.1
     */
-  public static function underscores( $str ) {
+  public static function slugify( $str, $delimiter = null ) {
 
-    return str_replace( '-', '_', $str );
+    $str = sanitize_title( $str );
+    if( $delimiter ) $str = str_replace( '-', $delimiter, $str );
+    return $str;
 
   }
 
