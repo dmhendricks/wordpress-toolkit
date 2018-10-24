@@ -29,7 +29,7 @@ If you can make the code better or recommend/contribute code that would be usefu
 * WordPress 4.7 or higher
 * PHP 7.0 or higher
 
-Compatibility tested with PHP 7.3 and WordPress 5.0.
+Compatibility tested with WordPress 5.0, multisite and PHP 7.3.
 
 ### Install with Composer
 
