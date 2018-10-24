@@ -19,7 +19,8 @@ class ToolKit {
     include_once( self::$admin_dir . '/includes/plugin.php' );
 
     // Define cookies
-    $site_slug = strtolower( sanitize_title( $_SERVER['SERVER_NAME'] ) );
+    $http_host = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : parse_url( site_url(), PHP_URL_HOST );
+    $site_slug = strtolower( sanitize_title( $http_host ) );
     if( !defined( 'SECURE_AUTH_COOKIE' ) ) define( 'SECURE_AUTH_COOKIE', $site_slug . '_sec_' . md5( SECURE_AUTH_SALT ) );
     if( !defined( 'AUTH_COOKIE' ) ) define( 'AUTH_COOKIE', $site_slug . '_' . md5( AUTH_SALT ) );
     if( !defined( 'LOGGED_IN_COOKIE' ) ) define( 'LOGGED_IN_COOKIE', $site_slug . '_logged_in_' . md5( LOGGED_IN_SALT ) );
