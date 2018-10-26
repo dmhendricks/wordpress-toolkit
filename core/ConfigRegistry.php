@@ -84,7 +84,7 @@ class ConfigRegistry
    */
   private function load( $path ) {
 
-    $json = json_decode( file_get_contents( $path ), true );
+    $json = json_decode( trim( file_get_contents( $path ) ), true );
 
     $this->config = $json ?: false;
 
